@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import ExpenseDate from './ExpenseDate';
 import Card from '../UI/Card';
-import Border from '../UI/Bordering';
 import './ExpenseItem.css';
 
 
@@ -14,7 +13,6 @@ const [title, setTitle] = useState(props.title);
         setTitle('Updated');
   }
   return (
-  <Border>
     <Card className='expense-item'>
       <ExpenseDate date={props.date} />
       <div className='expense-item__description'>
@@ -23,7 +21,6 @@ const [title, setTitle] = useState(props.title);
       </div>
       {/* <button onClick={clickHandler}>Change Title</button>  */}
     </Card>
-    </Border>
   );
 }
 
