@@ -1,8 +1,21 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.css';
 import Expenses from './components/Expenses/Expenses';
 import NewExpense from './components/NewExpense/NewExpense';
 import Learn from './components/Learn/Learn';
+import Routing from './components/Routing/Routing';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Loading from './components/UI/Loading';
+import axios from 'axios';
+
+
+// const get_data = () => {
+//    axios.get('http://localhost:4000/expenses').then((response) => {
+//      console.log(response);
+//    }).catch((error) => {
+//     console.log(error);
+//   });
+// };
 
 const dummy_expenses = [
   {
@@ -28,8 +41,22 @@ const dummy_expenses = [
 
 
 function App() {
+
   const [name,setname] = useState('');
-  const [expenses,setExpenses] = useState(dummy_expenses);
+  const [expenses,setExpenses] = useState('');
+
+  useEffect(() => {
+    axios.get('http://localhost:4000/expenses').then((response) => {
+   const data = response.data;
+   Object.keys(data).map((key,index) => {
+    data[key].date = new Date(data[key].date);
+       response.date = new Date(response.date);     
+   })    
+   setExpenses(data);
+    }).catch((error) => {
+     console.log(error);
+    })
+  }, []);
   const addExpenseHandler = (expense) => {
     setExpenses((prevExpenses) => {
       return [expense, ...prevExpenses];
@@ -40,12 +67,24 @@ function App() {
     console.log(title);
     setname(title);
   }
+
+    // don't render Child until `items` is ready!
+
   return (
     <div className="App">
       <NewExpense onAddExpense = {addExpenseHandler} />
-      <Expenses items={expenses} />
-      <Learn title ='faraz' onSaveName={onNameHandler} />
+      {!expenses && <Loading />}
+
+      {expenses && <Expenses items={expenses} />}
+
+      {/* <Learn title ='faraz' onSaveName={onNameHandler} />
       {name}
+      <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Routing />}>
+        </Route>
+      </Routes>
+    </BrowserRouter> */}
     </div>
   );
 }
