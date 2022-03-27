@@ -33,7 +33,7 @@ const dummy_expenses = [
   },
   {
     id: 'e4',
-    title: 'New Desk (Wooden)',
+    title: 'New Desk (Wooden)s',
     amount: 450,
     date: new Date(2021, 5, 12),
   },
